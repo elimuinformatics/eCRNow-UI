@@ -10,8 +10,8 @@ services:
     networks:
       - ecrnow-network  # Assign the service to the custom network
     environment:
-      JDBC_PASSWORD: medmorph
-      JDBC_USERNAME: medmorphadmin
+      JDBC_PASSWORD: ${JDBC_PASSWORD}
+      JDBC_USERNAME: ${JDBC_USERNAME}
       DB_HOST: host.docker.internal
       FHIR_URL: https://dummyserver.org/fhir/
 
