@@ -18,25 +18,25 @@ services:
   ecrnow-ui:
     image: ecrnow-ui  # Replace with your UI Docker image name
     ports:
-      - "3000:3000"
+      - "80:80"
     container_name: ecrnow-ui
     environment:
-      REACT_APP_ECR_BASE_URL: http://localhost:9090
+      REACT_APP_ECR_BASE_URL: http://localhost
     networks:
       - ecrnow-network  # Assign the service to the custom network
 
-  nginx:
-    build:
-      context: .
-      dockerfile: Dockerfile.nginx  # Use the name of your Dockerfile
-    ports:
-      - "9090:80"
-    container_name: ecrnow-nginx
-    depends_on:
-      - ecrnow-api
-      - ecrnow-ui
-    networks:
-      - ecrnow-network  # Assign the service to the custom network
+#  nginx:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.nginx  # Use the name of your Dockerfile
+#    ports:
+#      - "9090:80"
+#    container_name: ecrnow-nginx
+#    depends_on:
+#      - ecrnow-api
+#      - ecrnow-ui
+#    networks:
+#      - ecrnow-network  # Assign the service to the custom network
 
 networks:
   ecrnow-network:
