@@ -1,0 +1,45 @@
+version: '3'
+services:
+  ecrnow-api:
+    image: ecrnow  # Replace with your API Docker image name
+    ports:
+      - "8080:8080"
+    container_name: ecrnow-api
+    volumes:
+      - /Users/vadimdribinsky/Projects/eCRNow/logs:/logs
+    networks:
+      - ecrnow-network  # Assign the service to the custom network
+    environment:
+      JDBC_PASSWORD: ${JDBC_PASSWORD}
+      JDBC_USERNAME: ${JDBC_USERNAME}
+      DB_HOST: host.docker.internal
+      FHIR_URL: https://dummyserver.org/fhir/
+
+  ecrnow-ui:
+    image: ecrnow-ui  # Replace with your UI Docker image name
+    ports:
+      - "80:80"
+    container_name: ecrnow-ui
+    environment:
+      REACT_APP_ECR_BASE_URL: http://localhost
+    networks:
+      - ecrnow-network  # Assign the service to the custom network
+
+#  nginx:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.nginx  # Use the name of your Dockerfile
+#    ports:
+#      - "9090:80"
+#    container_name: ecrnow-nginx
+#    depends_on:
+#      - ecrnow-api
+#      - ecrnow-ui
+#    networks:
+#      - ecrnow-network  # Assign the service to the custom network
+
+networks:
+  ecrnow-network:
+    driver: bridge  # Define a custom bridge network
+
+#  host.docker.internal
