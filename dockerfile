@@ -1,14 +1,23 @@
-# Stage 1: Build the React application
+# Stage 1: Build the Node.js application
 FROM node:16 AS build
-ARG ECR_BASE_URL
 WORKDIR /app
 COPY package*.json ./
-ENV REACT_APP_ECR_BASE_URL = $ECR_BASE_URL
 RUN npm install
 COPY . ./
 
-# Expose port 80
-EXPOSE 3000
+# Set environment variables as build arguments
+ARG REACT_APP_ECR_BASE_URL
+ENV REACT_APP_ECR_BASE_URL=$REACT_APP_ECR_BASE_URL
 
-# Start Nginx
-CMD ["npm","start"]
+RUN npm run build
+
+# Stage 2: Serve the application using NGINX
+FROM nginx:stable
+RUN apt-get update
+
+# Copy the built React application from the build stage
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]
+
