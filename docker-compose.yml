@@ -22,6 +22,9 @@ services:
     container_name: ecrnow-ui
     environment:
       REACT_APP_ECR_BASE_URL: http://localhost
+      AUTH_BASIC_USERNAME: medmorph
+      AUTH_BASIC_PASSWORD: ${AUTH_PASSWORD}
+      AUTH_BASIC: 'MedMorph Authentication'
     networks:
       - ecrnow-network  # Assign the service to the custom network
 
