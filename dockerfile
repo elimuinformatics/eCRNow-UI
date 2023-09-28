@@ -13,12 +13,20 @@ RUN npm run build
 
 # Stage 2: Serve the application using NGINX
 FROM nginx:stable
-RUN apt-get update
+RUN apt-get update && apt-get install -y \
+    apache2-utils \
+    moreutils \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy the built React application from the build stage
 RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /etc/nginx
+COPY --chmod=0755 docker-entrypoint.sh /etc/nginx
 EXPOSE 80
+
+ENTRYPOINT ["/etc/nginx/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 
