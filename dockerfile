@@ -24,7 +24,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 WORKDIR /etc/nginx
-COPY --chmod=0755 docker-entrypoint.sh /etc/nginx
+COPY docker-entrypoint.sh /etc/nginx
+RUN chmod 755 /etc/nginx/docker-entrypoint.sh
 EXPOSE 80
 
 ENTRYPOINT ["/etc/nginx/docker-entrypoint.sh"]
