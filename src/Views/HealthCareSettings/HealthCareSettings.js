@@ -413,7 +413,7 @@ class HealthCareSettings extends Component {
         var requestMethod = '';
         var healthCareSettings = {
             authType: this.state.authType,
-            clientId: (this.state.authType === "System" || this.state.authType==="MultiTenantSystemLaunch") && this.state.clientId ?this.state.clientId:this.state.username,
+            clientId: this.state.clientId,
             isDirect: this.state.directType === "direct" ? true : false,
             isXdr: this.state.directType === "xdr" ? true : false,
             isRestAPI: this.state.directType === "restApi" ? true : false,
@@ -706,7 +706,6 @@ class HealthCareSettings extends Component {
                                                     </Row>
                                                 </Col>
                                             </Form.Group>
-                                            {this.state.authType === 'System' || this.state.authType === 'MultiTenantSystemLaunch' || this.state.authType === 'SofBackend' ? (
                                             <Form.Group as={Row} controlId="formHorizontalClientId">
                                                 <Form.Label column sm={2}>
                                                     Client Id:
@@ -717,7 +716,8 @@ class HealthCareSettings extends Component {
                                                         Please provide a Client Id.
                                                     </Form.Control.Feedback>
                                                 </Col>
-                                            </Form.Group>):(
+                                            </Form.Group>
+                                            {this.state.authType === 'UserNamePwd' ? (
                                                 <Form.Group as={Row} controlId="formHorizontalUsername">
                                                 <Form.Label column sm={2}>
                                                     Username:
@@ -729,8 +729,7 @@ class HealthCareSettings extends Component {
                                                     </Form.Control.Feedback>
                                                 </Col>
                                             </Form.Group>
-                                            )}
-
+                                            ) : ''}
                                             {this.state.authType === 'System' || this.state.authType === 'MultiTenantSystemLaunch'? (
                                                 <Form.Group as={Row} controlId="formHorizontalClientSecret">
                                                     <Form.Label column sm={2}>
