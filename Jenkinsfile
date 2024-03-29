@@ -37,6 +37,7 @@ pipeline {
         sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock $AWS_ENV $GIT_ENV cicd push $SERVICE_NAME'
       }
     }
+  }
   post {
     unsuccessful {
       slackSend color: 'danger', channel: '#product-ops-qa', message: "Pipeline Failed: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
